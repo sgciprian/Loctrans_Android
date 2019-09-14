@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Orar Loctrans</string>
+    <string name="stationActivityToggleDescriptionOn">Afișați programul pentru toată ziua</string>
+    <string name="lineActivitySwitch">Schimbați sensul de mers</string>
+    <string name="stationsButton">Listă stații</string>
+    <string name="linesButton">Listă linii</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="title_lines">Linii</string>
+    <string name="title_stations">Stații</string>
+    <string name="search_title">Caută</string>
+    <string name="home_searchHint">Căutați stații...</string>
+</resources>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_lines"
+        android:icon="@drawable/ic_directions_bus_black_24dp"
+        android:title="@string/title_lines" />
+
+    <item
+        android:id="@+id/navigation_stations"
+        android:icon="@drawable/ic_place_black_24dp"
+        android:title="@string/title_stations" />
+
+</menu>
