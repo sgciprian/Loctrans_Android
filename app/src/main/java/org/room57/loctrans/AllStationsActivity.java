@@ -80,6 +80,7 @@ public class AllStationsActivity extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        Values.setStationsList(stationsList);
 
         Collections.sort(stationsList, new Comparator<Stations>() {
             @Override

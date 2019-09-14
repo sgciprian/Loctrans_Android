@@ -22,6 +22,7 @@ import org.apache.commons.lang3.time.DateUtils;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,6 +45,7 @@ public class StationActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private TimesAdapter tAdapter;
     private boolean black = true;
+    private boolean filtered = false;
     private SimpleDateFormat df = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
     @Override
@@ -60,7 +62,7 @@ public class StationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(stationName);
 
-        ImageButton btn = (ImageButton) findViewById(R.id.imageButton);
+        ImageButton btn = (ImageButton) findViewById(R.id.scheduleButton);
         btn.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -76,6 +78,34 @@ public class StationActivity extends AppCompatActivity {
                     btn.setImageResource(R.drawable.ic_schedule_black_24dp);
                     shownTimesList.addAll(validTimesList);
                     black = true;
+                }
+                tAdapter.notifyDataSetChanged();
+            }
+        });
+
+        btn = (ImageButton) findViewById(R.id.filterButton);
+        btn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                final ImageButton btn = (ImageButton) v;
+                if (!filtered) {
+                    stationSearchDialog st = new stationSearchDialog(StationActivity.this);
+                    st.show();
+                    st.setDialogResult(new stationSearchDialog.OnMyDialogResult(){
+                        public void finish(String result){
+                            if (result != null) {
+                                filtered = true;
+                                tAdapter.filter(result, stationCode);
+                                btn.setImageResource(R.drawable.ic_gps_off_black_24dp);
+                            }
+                        }
+                    });
+                }
+                else {
+                    filtered = false;
+                    tAdapter.filter("", "");
+                    btn.setImageResource(R.drawable.ic_gps_not_fixed_black_24dp);
                 }
                 tAdapter.notifyDataSetChanged();
             }
@@ -166,6 +196,7 @@ public class StationActivity extends AppCompatActivity {
                             if (kth == -1)
                                 break search;
 
+                            String[] header = cr;
                             for (;;) {
                                 cr = reader2.readNext();
                                 if (cr != null) {
@@ -174,6 +205,7 @@ public class StationActivity extends AppCompatActivity {
                                     tm.setLine(crLine);
                                     tm.setEnd(last);
                                     tm.setReverse(term != 0);
+                                    tm.setStations(Arrays.asList(header));
                                     timesList.add(tm);
                                 } else {
                                     break;

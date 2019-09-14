@@ -9,4 +9,5 @@
     <string name="title_stations">Stații</string>
     <string name="search_title">Caută</string>
     <string name="home_searchHint">Căutați stații...</string>
+    <string name="stationSearchDialog_title">Selectați stație destinație</string>
 </resources>

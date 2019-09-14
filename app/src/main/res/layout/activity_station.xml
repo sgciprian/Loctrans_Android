@@ -19,7 +19,16 @@
             android:elevation="4dp">
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/filterButton"
+                android:layout_margin="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@android:color/transparent"
+                app:srcCompat="@drawable/ic_gps_not_fixed_black_24dp" />
+
+            <ImageButton
+                android:id="@+id/scheduleButton"
                 android:layout_margin="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
