@@ -23,10 +23,12 @@ public class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.MyView
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
+        public TextView time;
 
         public MyViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.name);
+            time = (TextView) view.findViewById(R.id.time);
         }
     }
 
@@ -41,10 +43,10 @@ public class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.MyView
         View itemView;
         if (viewType == 0) {
             itemView = LayoutInflater.from(parent.getContext())
-                   .inflate(R.layout.stations_list_row, parent, false);
+                   .inflate(R.layout.list_stations_row, parent, false);
         } else {
             itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.stations_list_row_parent, parent, false);
+                    .inflate(R.layout.list_stations_row_parent, parent, false);
         }
 
         return new MyViewHolder(itemView);
@@ -54,6 +56,7 @@ public class StationsAdapter extends RecyclerView.Adapter<StationsAdapter.MyView
     public void onBindViewHolder(MyViewHolder holder, int position) {
         Stations station = stationsList.get(position);
         holder.name.setText(station.getName());
+        holder.time.setText(station.getTime());
     }
 
     @Override

@@ -46,6 +46,7 @@ public class LineActivity extends AppCompatActivity {
     private List<String> stopCodes;
     private RecyclerView recyclerView;
     private StationsAdapter sAdapter;
+    private ArrayList<String> timesList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +59,7 @@ public class LineActivity extends AppCompatActivity {
         isReverse = extras.getString("LineReverse");
         sourceStation = extras.getString("SourceStation");
         canReverseView = extras.getString("CanReverseView");
+        timesList = extras.getStringArrayList("TimesList");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_line);
@@ -115,6 +117,7 @@ public class LineActivity extends AppCompatActivity {
                 Intent i = new Intent(getBaseContext(), StationActivity.class);
                 i.putExtra("StationCode", station.getCode());
                 i.putExtra("StationName", station.getName());
+                i.putExtra("IsDirections", "false");
                 startActivity(i);
             }
 
@@ -202,6 +205,8 @@ public class LineActivity extends AppCompatActivity {
         shownStopsList.clear();
         for (int i = 0; i < stopCodes.size(); i++) {
             Stations stop = stopsList.get(stopCodes.get(i));
+            if (timesList != null)
+                stop.setTime(timesList.get(i));
             if (stop != null ) {
                 if (stop.getName().equals(sourceStation))
                     stop.setType(1);

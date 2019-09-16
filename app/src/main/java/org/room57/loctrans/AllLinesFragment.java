@@ -2,18 +2,14 @@ package org.room57.loctrans;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 import com.opencsv.CSVReader;
 
@@ -22,14 +18,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllLinesActivity extends Fragment {
+public class AllLinesFragment extends Fragment {
     private List<Lines> linesList;
     private RecyclerView recyclerView;
     private LinesAdapter lAdapter;
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.activity_all_lines, null);
+        View root = inflater.inflate(R.layout.fragment_all_lines, null);
         return root;
     }
 

@@ -2,15 +2,12 @@ package org.room57.loctrans;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,14 +24,14 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-public class AllStationsActivity extends Fragment {
+public class AllStationsFragment extends Fragment {
     private List<Stations> stationsList;
     private RecyclerView recyclerView;
     private StationsAdapter sAdapter;
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-        View root = inflater.inflate(R.layout.activity_all_lines, null);
+        View root = inflater.inflate(R.layout.fragment_all_lines, null);
         return root;
     }
 
@@ -49,6 +46,7 @@ public class AllStationsActivity extends Fragment {
                 Intent i = new Intent(getActivity().getBaseContext(), StationActivity.class);
                 i.putExtra("StationCode", station.getCode());
                 i.putExtra("StationName", station.getName());
+                i.putExtra("IsDirections", "false");
                 startActivity(i);
             }
 
@@ -80,7 +78,6 @@ public class AllStationsActivity extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Values.setStationsList(stationsList);
 
         Collections.sort(stationsList, new Comparator<Stations>() {
             @Override
@@ -88,6 +85,7 @@ public class AllStationsActivity extends Fragment {
                 return o1.getName().compareTo(o2.getName());
             }
         });
+        Values.setStationsList(stationsList);
 
         sAdapter = new StationsAdapter(stationsList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
@@ -99,7 +97,7 @@ public class AllStationsActivity extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.home_bar, menu);
+        inflater.inflate(R.menu.actionbar_home, menu);
 
         MenuItem search_item = menu.findItem(R.id.search);
 

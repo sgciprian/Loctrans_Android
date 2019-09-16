@@ -39,13 +39,21 @@ import java.util.TimeZone;
 public class StationActivity extends AppCompatActivity {
     private String stationCode;
     private String stationName;
+    private String filter;
+    private String directions;
+    private String destinationCode;
+
     private List<Times> timesList = new ArrayList<>();
     private List<Times> shownTimesList = new ArrayList<>();
+    private List<Times> shownTimesListCopy = new ArrayList<>();
     private List<Times> validTimesList = new ArrayList<>();
+
     private RecyclerView recyclerView;
     private TimesAdapter tAdapter;
+
     private boolean black = true;
     private boolean filtered = false;
+
     private SimpleDateFormat df = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
     @Override
@@ -54,6 +62,9 @@ public class StationActivity extends AppCompatActivity {
         assert extras != null;
         stationCode = extras.getString("StationCode");
         stationName = extras.getString("StationName");
+        directions = extras.getString("IsDirections");
+        if (directions.equals("true"))
+            destinationCode = extras.getString("DestinationCode");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_station);
@@ -61,55 +72,6 @@ public class StationActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(stationName);
-
-        ImageButton btn = (ImageButton) findViewById(R.id.scheduleButton);
-        btn.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                ImageButton btn = (ImageButton) v;
-                shownTimesList.clear();
-                if (black) {
-                    btn.setImageResource(R.drawable.ic_schedule_white_24dp);
-                    shownTimesList.addAll(timesList);
-                    black = false;
-                }
-                else {
-                    btn.setImageResource(R.drawable.ic_schedule_black_24dp);
-                    shownTimesList.addAll(validTimesList);
-                    black = true;
-                }
-                tAdapter.notifyDataSetChanged();
-            }
-        });
-
-        btn = (ImageButton) findViewById(R.id.filterButton);
-        btn.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                final ImageButton btn = (ImageButton) v;
-                if (!filtered) {
-                    stationSearchDialog st = new stationSearchDialog(StationActivity.this);
-                    st.show();
-                    st.setDialogResult(new stationSearchDialog.OnMyDialogResult(){
-                        public void finish(String result){
-                            if (result != null) {
-                                filtered = true;
-                                tAdapter.filter(result, stationCode);
-                                btn.setImageResource(R.drawable.ic_gps_off_black_24dp);
-                            }
-                        }
-                    });
-                }
-                else {
-                    filtered = false;
-                    tAdapter.filter("", "");
-                    btn.setImageResource(R.drawable.ic_gps_not_fixed_black_24dp);
-                }
-                tAdapter.notifyDataSetChanged();
-            }
-        });
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
@@ -120,6 +82,7 @@ public class StationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         shownTimesList.addAll(validTimesList);
+        shownTimesListCopy.addAll(validTimesList);
 
         tAdapter = new TimesAdapter(shownTimesList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -140,6 +103,7 @@ public class StationActivity extends AppCompatActivity {
                 i.putExtra("LineReverse", Boolean.toString(tm.isReverse()));
                 i.putExtra("SourceStation", stationName);
                 i.putExtra("CanReverseView", "false");
+                i.putStringArrayListExtra("TimesList", tm.getStationTimes());
                 startActivity(i);
             }
 
@@ -148,6 +112,80 @@ public class StationActivity extends AppCompatActivity {
 
             }
         }));
+
+        if (directions.equals("false"))
+            setListeners();
+        else {
+            ImageButton btn = (ImageButton) findViewById(R.id.scheduleButton);
+            btn.setVisibility(View.GONE);
+
+            btn = (ImageButton) findViewById(R.id.filterButton);
+            btn.setVisibility(View.GONE);
+
+            tAdapter.filter(destinationCode, stationCode, shownTimesListCopy);
+        }
+    }
+
+    private void setListeners() {
+        ImageButton btn = (ImageButton) findViewById(R.id.scheduleButton);
+        btn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                ImageButton btn = (ImageButton) v;
+                shownTimesList.clear();
+                shownTimesListCopy.clear();
+
+                if (black) {
+                    btn.setImageResource(R.drawable.ic_schedule_white_24dp);
+                    shownTimesList.addAll(timesList);
+                    black = false;
+                }
+                else {
+                    btn.setImageResource(R.drawable.ic_schedule_black_24dp);
+                    shownTimesList.addAll(validTimesList);
+                    black = true;
+
+                }
+
+                shownTimesListCopy.addAll(shownTimesList);
+                if (filtered) {
+                    tAdapter.filter(filter, stationCode, shownTimesListCopy);
+                }
+                tAdapter.notifyDataSetChanged();
+            }
+        });
+
+        btn = (ImageButton) findViewById(R.id.filterButton);
+        btn.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                final ImageButton btn = (ImageButton) v;
+                if (!filtered) {
+                    stationSearchDialog st = new stationSearchDialog(StationActivity.this);
+                    st.show();
+                    st.setDialogResult(new stationSearchDialog.OnMyDialogResult(){
+                        public void finish(String result){
+                            if (result != null) {
+                                filtered = true;
+                                filter = result;
+                                tAdapter.filter(result, stationCode, shownTimesListCopy);
+                                btn.setImageResource(R.drawable.ic_gps_off_black_24dp);
+                            }
+                        }
+                    });
+                }
+                else {
+                    filtered = false;
+                    filter = "";
+                    tAdapter.filter("", "", shownTimesListCopy);
+                    btn.setImageResource(R.drawable.ic_gps_not_fixed_black_24dp);
+                }
+                tAdapter.notifyDataSetChanged();
+            }
+        });
+
     }
 
     private void processTimes() {
@@ -206,6 +244,7 @@ public class StationActivity extends AppCompatActivity {
                                     tm.setEnd(last);
                                     tm.setReverse(term != 0);
                                     tm.setStations(Arrays.asList(header));
+                                    tm.setStationTimes(new ArrayList<String>(Arrays.asList(cr)));
                                     timesList.add(tm);
                                 } else {
                                     break;

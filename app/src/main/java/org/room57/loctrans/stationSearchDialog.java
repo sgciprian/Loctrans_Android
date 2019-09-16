@@ -2,16 +2,13 @@ package org.room57.loctrans;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
@@ -31,7 +28,7 @@ public class stationSearchDialog extends Dialog implements View.OnClickListener 
         this.stationsList = new ArrayList<>();
         this.stationsList.addAll(Values.stationsList);
 
-        setContentView(R.layout.station_search_dialog);
+        setContentView(R.layout.dialog_station_search);
         this.setTitle(R.string.stationSearchDialog_title);
 
         filterText = (EditText) findViewById(R.id.box);

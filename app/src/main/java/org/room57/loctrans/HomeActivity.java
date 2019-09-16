@@ -5,12 +5,9 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.TextView;
 
 public class HomeActivity extends AppCompatActivity {
     MenuItem search_item;
@@ -58,10 +55,10 @@ public class HomeActivity extends AppCompatActivity {
         if (frag == null){
             switch (tag) {
                 case "lines":
-                    frag = new AllLinesActivity();
+                    frag = new AllLinesFragment();
                     break;
                 case "stations":
-                    frag = new AllStationsActivity();
+                    frag = new AllStationsFragment();
                     break;
             }
         }

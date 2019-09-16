@@ -12,11 +12,6 @@ public class LinesAdapter extends RecyclerView.Adapter<LinesAdapter.MyViewHolder
 
     private List<Lines> linesList;
 
-    /*@Override
-    public int getItemViewType(int position) {
-        return linesList.get(position).getType();
-    }*/
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
 
@@ -34,13 +29,8 @@ public class LinesAdapter extends RecyclerView.Adapter<LinesAdapter.MyViewHolder
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView;
-        /*if (viewType == 0) {*/
-            itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.stations_list_row, parent, false);
-        /*} else {
-            itemView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.stations_list_row_parent, parent, false);
-        }*/
+        itemView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_stations_row, parent, false);
 
         return new MyViewHolder(itemView);
     }

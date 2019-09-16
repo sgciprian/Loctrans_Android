@@ -9,6 +9,8 @@ public class Stations {
     @CsvBindByName
     private String name;
 
+    private String time;
+
     private int type = 0;
 
     public String getCode() { return code; }
@@ -19,4 +21,12 @@ public class Stations {
 
     public int getType() { return type; }
     public void setType(int type) { this.type = type; }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
 }

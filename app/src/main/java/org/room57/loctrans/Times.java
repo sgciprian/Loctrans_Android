@@ -1,5 +1,6 @@
 package org.room57.loctrans;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Times {
@@ -7,6 +8,7 @@ public class Times {
     private Lines line;
     private String end;
     private List<String> stations;
+    private ArrayList<String> stationTimes;
     private boolean reverse;
 
     public String getTime() { return time; }
@@ -23,4 +25,12 @@ public class Times {
 
     public List<String> getStations() { return stations; }
     public void setStations(List<String> stations) { this.stations = stations; }
+
+    public ArrayList<String> getStationTimes() {
+        return stationTimes;
+    }
+
+    public void setStationTimes(ArrayList<String> stationTimes) {
+        this.stationTimes = stationTimes;
+    }
 }

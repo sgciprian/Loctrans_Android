@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:tag="lines"
-    tools:context=".AllLinesActivity">
+    android:tag="stations"
+    tools:context=".AllStationsFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
