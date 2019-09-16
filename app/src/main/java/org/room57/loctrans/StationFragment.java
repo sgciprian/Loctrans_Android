@@ -16,10 +16,12 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.opencsv.CSVReader;
 
 import org.apache.commons.lang3.time.DateUtils;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -93,12 +95,12 @@ public class StationFragment extends Fragment {
         stationCode = extras.getString("StationCode");
         stationName = extras.getString("StationName");
         directions = extras.getString("IsDirections");
-        if (directions.equals("true"))
+        if (!directions.equals("false"))
             destinationCode = extras.getString("DestinationCode");
 
         super.onCreate(savedInstanceState);
 
-        if (directions.equals("true") || directions.equals("false")) {
+        if (!directions.equals("trueEmbedded")) {
             Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
             toolbar.setTitle(stationName);
             modifyToolbar(toolbar);
@@ -149,6 +151,9 @@ public class StationFragment extends Fragment {
                 if (filtered) {
                     tAdapter.filter(filter, stationCode, shownTimesListCopy);
                 }
+
+                updateText();
+
                 tAdapter.notifyDataSetChanged();
             }
         });
@@ -170,6 +175,7 @@ public class StationFragment extends Fragment {
                                 tAdapter.filter(result, stationCode, shownTimesListCopy);
                                 btn.setImageResource(R.drawable.ic_gps_off_black_24dp);
                             }
+                            updateText();
                         }
                     });
                 }
@@ -179,10 +185,23 @@ public class StationFragment extends Fragment {
                     tAdapter.filter("", "", shownTimesListCopy);
                     btn.setImageResource(R.drawable.ic_gps_not_fixed_black_24dp);
                 }
+
+                updateText();
+
                 tAdapter.notifyDataSetChanged();
             }
         });
 
+    }
+
+    private void updateText() {
+        TextView text = (TextView) getView().findViewById(R.id.noBusText);
+        if (shownTimesList == null || shownTimesList.size() == 0) {
+            text.setText(getString(R.string.noBus));
+        }
+        else {
+            text.setText("");
+        }
     }
 
     private void modifyToolbar(Toolbar toolbar) {

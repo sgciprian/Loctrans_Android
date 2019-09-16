@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 
 public class DirectionsFragment extends Fragment {
+    Fragment frag;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -26,6 +27,17 @@ public class DirectionsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        Bundle args = new Bundle();
+        args.putString("StationCode", "CATEDRALA");
+        args.putString("StationName", "Catedrala");
+        args.putString("IsDirections", "trueEmbedded");
+        args.putString("DestinationCode", "VALCEA");
+
+        frag = new StationFragment();
+        frag.setArguments(args);
+
+        getChildFragmentManager().beginTransaction().replace(R.id.fragmentTimes, frag, "fragmentTimes").commit();
     }
 
 }
