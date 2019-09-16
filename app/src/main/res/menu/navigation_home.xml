@@ -11,4 +11,9 @@
         android:icon="@drawable/ic_place_black_24dp"
         android:title="@string/title_stations" />
 
+    <item
+        android:id="@+id/navigation_directions"
+        android:icon="@drawable/ic_directions_black_24dp"
+        android:title="@string/title_directions" />
+
 </menu>

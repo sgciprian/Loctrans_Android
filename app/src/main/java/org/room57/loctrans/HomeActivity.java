@@ -25,6 +25,9 @@ public class HomeActivity extends AppCompatActivity {
                 case R.id.navigation_stations:
                     loadFragmentByTag("stations");
                     return true;
+                case R.id.navigation_directions:
+                    loadFragmentByTag("directions");
+                    return true;
             }
             return false;
         }
@@ -59,6 +62,9 @@ public class HomeActivity extends AppCompatActivity {
                     break;
                 case "stations":
                     frag = new AllStationsFragment();
+                    break;
+                case "directions":
+                    frag = new DirectionsFragment();
                     break;
             }
         }

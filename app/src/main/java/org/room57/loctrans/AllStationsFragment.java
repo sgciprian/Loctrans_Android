@@ -97,7 +97,7 @@ public class AllStationsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.actionbar_home, menu);
+        inflater.inflate(R.menu.actionbar_all_stations, menu);
 
         MenuItem search_item = menu.findItem(R.id.search);
 
