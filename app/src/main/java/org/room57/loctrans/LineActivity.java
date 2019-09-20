@@ -9,6 +9,7 @@ import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 
@@ -29,9 +30,9 @@ public class LineActivity extends AppCompatActivity {
     private String lineColor;
     private String isReverse;
     private String sourceStation;
+    private String destinationStation;
     private String canReverseView;
 
-    private Map<String, Stations> stopsList;
     private List<Stations> shownStopsList = new ArrayList<>();
     private List<String> stopCodes;
     private RecyclerView recyclerView;
@@ -48,6 +49,7 @@ public class LineActivity extends AppCompatActivity {
         lineColor = extras.getString("LineColor");
         isReverse = extras.getString("LineReverse");
         sourceStation = extras.getString("SourceStation");
+        destinationStation = extras.getString("DestinationStation");
         canReverseView = extras.getString("CanReverseView");
         timesList = extras.getStringArrayList("TimesList");
 
@@ -73,7 +75,6 @@ public class LineActivity extends AppCompatActivity {
                 setTitleBar();
 
                 getStops();
-                processStops();
                 filterStops((ArrayList<String>) stopCodes);
                 sAdapter.notifyDataSetChanged();
             }
@@ -89,7 +90,6 @@ public class LineActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         getStops();
-        processStops();
         filterStops((ArrayList<String>) stopCodes);
 
         sAdapter = new StationsAdapter(shownStopsList);
@@ -170,35 +170,14 @@ public class LineActivity extends AppCompatActivity {
 
     }
 
-    private void processStops() {
-        stopsList = new HashMap<>();
-        try {
-            CSVReader reader = new CSVReader(new InputStreamReader(getAssets().open("data/stations.csv")));
-            reader.skip(1);
-            for(;;) {
-                String[] next = reader.readNext();
-                if(next != null) {
-                    Stations nw = new Stations();
-                    nw.setCode(next[0]);
-                    nw.setName(next[1]);
-                    stopsList.put(nw.getCode(), nw);
-                } else {
-                    break;
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void filterStops(ArrayList<String> stopCodes) {
         shownStopsList.clear();
         for (int i = 0; i < stopCodes.size(); i++) {
-            Stations stop = stopsList.get(stopCodes.get(i));
-            if (timesList != null)
-                stop.setTime(timesList.get(i));
+            Stations stop = new Stations(Values.stopsList.get(stopCodes.get(i)));
             if (stop != null ) {
-                if (stop.getName().equals(sourceStation))
+                if (timesList != null)
+                    stop.setTime(timesList.get(i));
+                if (stop.getName().equals(sourceStation) || (stop.getCode().equals(destinationStation)))
                     stop.setType(1);
                 shownStopsList.add(stop);
             }

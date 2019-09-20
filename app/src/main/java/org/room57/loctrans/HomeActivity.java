@@ -39,12 +39,15 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        navigation.setSelectedItemId(R.id.navigation_stations);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Orar Loctrans");
 
-        loadFragmentByTag("lines");
+        Values.setStopsList(getApplicationContext());
+
+        loadFragmentByTag("stations");
     }
 
     @Override

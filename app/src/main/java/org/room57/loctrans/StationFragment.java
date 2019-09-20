@@ -58,11 +58,57 @@ public class StationFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_station, null);
+
         return root;
+    }
+
+    private void createRecycler() {
+        Bundle extras = getArguments();
+        assert extras != null;
+        stationCode = extras.getString("StationCode");
+
+        if (extras.getString("StationName") != null)
+            stationName = extras.getString("StationName");
+        else {
+            stationName = Values.stopsList.get(stationCode).getName();
+        }
+
+        directions = extras.getString("IsDirections");
+        if (directions.equals("true"))
+            destinationCode = extras.getString("DestinationCode");
+
+        if (directions.equals("false")) {
+            Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+            toolbar.setTitle(stationName);
+            setListeners(toolbar);
+        }
+
+        validTimesList.clear();
+        timesList.clear();
+        processTimes();
+        try {
+            filterTimes(df.format(new Date()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        shownTimesList.clear();
+        shownTimesList.addAll(validTimesList);
+        shownTimesListCopy.addAll(validTimesList);
+
+        tAdapter = new TimesAdapter(shownTimesList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(tAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
+
+        if (directions.equals("true"))
+            tAdapter.filter(destinationCode, stationCode, shownTimesListCopy);
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        createRecycler();
 
         recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getContext(), recyclerView, new RecyclerTouchListener.ClickListener() {
             @Override
@@ -75,6 +121,7 @@ public class StationFragment extends Fragment {
                 i.putExtra("LineColor", tm.getLine().getColor());
                 i.putExtra("LineReverse", Boolean.toString(tm.isReverse()));
                 i.putExtra("SourceStation", stationName);
+                i.putExtra("DestinationStation", destinationCode);
                 i.putExtra("CanReverseView", "false");
                 i.putStringArrayListExtra("TimesList", tm.getStationTimes());
                 startActivity(i);
@@ -89,40 +136,6 @@ public class StationFragment extends Fragment {
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-
-        Bundle extras = getArguments();
-        assert extras != null;
-        stationCode = extras.getString("StationCode");
-        stationName = extras.getString("StationName");
-        directions = extras.getString("IsDirections");
-        if (!directions.equals("false"))
-            destinationCode = extras.getString("DestinationCode");
-
-        super.onCreate(savedInstanceState);
-
-        if (!directions.equals("trueEmbedded")) {
-            Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-            toolbar.setTitle(stationName);
-            modifyToolbar(toolbar);
-        }
-
-        processTimes();
-        try {
-            filterTimes(df.format(new Date()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        shownTimesList.addAll(validTimesList);
-        shownTimesListCopy.addAll(validTimesList);
-
-        Log.d("Times", Integer.toString(shownTimesList.size()));
-
-        tAdapter = new TimesAdapter(shownTimesList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(tAdapter);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
     }
 
     private void setListeners(Toolbar toolbar) {
@@ -201,20 +214,6 @@ public class StationFragment extends Fragment {
         }
         else {
             text.setText("");
-        }
-    }
-
-    private void modifyToolbar(Toolbar toolbar) {
-        if (directions.equals("false"))
-            setListeners(toolbar);
-        else {
-            ImageButton btn = (ImageButton) toolbar.findViewById(R.id.scheduleButton);
-            btn.setVisibility(View.GONE);
-
-            btn = (ImageButton) toolbar.findViewById(R.id.filterButton);
-            btn.setVisibility(View.GONE);
-
-            tAdapter.filter(destinationCode, stationCode, shownTimesListCopy);
         }
     }
 

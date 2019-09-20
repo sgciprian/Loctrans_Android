@@ -16,7 +16,8 @@
             android:id="@+id/startStation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
             android:src="@drawable/ic_place_black_24dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent" />
@@ -25,7 +26,8 @@
             android:id="@+id/endStation"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
             android:src="@drawable/ic_flag_black_24dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/startStation" />
@@ -34,7 +36,7 @@
             android:id="@+id/separator"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             app:layout_constraintTop_toBottomOf="@+id/endStation"
             app:layout_constraintLeft_toLeftOf="parent"
             android:background="@android:color/darker_gray"/>
@@ -43,9 +45,28 @@
             android:id="@+id/fragmentTimes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@+id/separator"
             app:layout_constraintLeft_toLeftOf="parent" />
+
+        <Button
+            android:id="@+id/buttonStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:minWidth="120dp"
+            android:text="@string/button_start_text"
+            app:layout_constraintLeft_toRightOf="@+id/startStation"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <Button
+            android:id="@+id/buttonEnd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="120dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/button_end_text"
+            app:layout_constraintTop_toBottomOf="@+id/buttonStart"
+            app:layout_constraintLeft_toRightOf="@+id/startStation" />
 
     </android.support.constraint.ConstraintLayout>
 

@@ -12,4 +12,6 @@
     <string name="stationSearchDialog_title">Selectați stație destinație</string>
     <string name="title_directions">Indicații</string>
     <string name="noBus">Nu există autobuze.</string>
+    <string name="button_start_text">Selectați stația plecare</string>
+    <string name="button_end_text">Selectați stația destinație</string>
 </resources>
