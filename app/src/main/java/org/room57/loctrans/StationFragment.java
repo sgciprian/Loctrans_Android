@@ -1,17 +1,15 @@
 package org.room57.loctrans;
 
 import android.content.Intent;
-import android.support.v4.app.Fragment;
+import androidx.fragment.app.Fragment;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -21,7 +19,6 @@ import android.widget.TextView;
 import com.opencsv.CSVReader;
 
 import org.apache.commons.lang3.time.DateUtils;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -102,8 +99,10 @@ public class StationFragment extends Fragment {
         recyclerView.setAdapter(tAdapter);
         recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayoutManager.VERTICAL));
 
-        if (directions.equals("true"))
+        if (directions.equals("true")) {
             tAdapter.filter(destinationCode, stationCode, shownTimesListCopy);
+            updateText();
+        }
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState) {
