@@ -14,4 +14,8 @@
     <string name="noBus">Nu există autobuze.</string>
     <string name="button_start_text">Stația plecare</string>
     <string name="button_end_text">Stația destinație</string>
+    <string name="display_text">Setări afișare</string>
+    <string name="help_text">Ajutor</string>
+    <string name="about_text">Despre</string>
+    <string name="display_dialog_title">Setați preferință temă</string>
 </resources>

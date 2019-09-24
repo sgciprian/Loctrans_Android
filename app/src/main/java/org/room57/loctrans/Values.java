@@ -1,12 +1,15 @@
 package org.room57.loctrans;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.opencsv.CSVReader;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +18,12 @@ public final class Values {
     public static List<Stations> stationsList;
 
     public static Map<String, Stations> stopsList;
+
+    public static CharSequence[] displaySettingsText = {"Luminos", "Întunecat", "În funcție de setarea economisire baterie"};
+    public static int displaySetting = 2;
+
+    public static SharedPreferences pref;
+    public static SharedPreferences.Editor editor;
 
     public static void setStationsList(List<Stations> stationsList) {
         Values.stationsList = new ArrayList<>();

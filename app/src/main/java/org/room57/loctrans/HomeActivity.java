@@ -1,14 +1,19 @@
 package org.room57.loctrans;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity {
     MenuItem search_item;
@@ -42,7 +47,7 @@ public class HomeActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         navigation.setSelectedItemId(R.id.navigation_stations);
 
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+        loadSettings();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -53,10 +58,35 @@ public class HomeActivity extends AppCompatActivity {
         loadFragmentByTag("stations");
     }
 
+    private void loadSettings() {
+        Values.pref = getApplicationContext().getSharedPreferences("Pref", 0);
+
+        Values.displaySetting = Values.pref.getInt("display setting", 2);
+        AppCompatDelegate.setDefaultNightMode(Values.displaySetting + 1);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.actionbar_home, menu);
 
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.display:
+                DialogFragment newFragment = new DisplaySettingsDialog();
+                newFragment.show(getSupportFragmentManager(), "display settings");
+                return true;
+            case R.id.help:
+                return true;
+            case R.id.about:
+                Toast.makeText(getApplicationContext(), "Orar Loctrans, versiunea 0.3", Toast.LENGTH_SHORT).show();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void loadFragmentByTag(String tag) {
