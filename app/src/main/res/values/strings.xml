@@ -18,4 +18,10 @@
     <string name="help_text">Ajutor</string>
     <string name="about_text">Despre</string>
     <string name="display_dialog_title">Setați preferință temă</string>
+    <string name="lines_shortcut_short_label">Linii</string>
+    <string name="lines_shortcut_long_label">Listă linii</string>
+    <string name="stations_shortcut_short_label">Stații</string>
+    <string name="stations_shortcut_long_label">Listă stații</string>
+    <string name="directions_shortcut_short_label">Indicații</string>
+    <string name="directions_shortcut_long_label">Listă indicații</string>
 </resources>

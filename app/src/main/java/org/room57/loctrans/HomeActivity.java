@@ -1,5 +1,6 @@
 package org.room57.loctrans;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
@@ -42,10 +43,28 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_home);
+
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.navigation_stations);
+
+        Intent intent = getIntent();
+        if (intent.getExtras() != null) {
+            switch (intent.getExtras().getString("fragmentTag")) {
+                case "lines":
+                    navigation.setSelectedItemId(R.id.navigation_lines);
+                    break;
+                case "stations":
+                    navigation.setSelectedItemId(R.id.navigation_stations);
+                    break;
+                case "directions":
+                    navigation.setSelectedItemId(R.id.navigation_directions);
+                    break;
+            }
+        }
+        else
+            navigation.setSelectedItemId(R.id.navigation_stations);
 
         loadSettings();
 
@@ -55,7 +74,11 @@ public class HomeActivity extends AppCompatActivity {
 
         Values.setStopsList(getApplicationContext());
 
-        loadFragmentByTag("stations");
+        if (intent.getExtras() != null) {
+            loadFragmentByTag(intent.getExtras().getString("fragmentTag"));
+        }
+        else
+            loadFragmentByTag("stations");
     }
 
     private void loadSettings() {

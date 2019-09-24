@@ -1,0 +1,43 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+    <shortcut
+        android:shortcutId="directions"
+        android:enabled="true"
+        android:icon="@drawable/ic_directions_primary_24dp"
+        android:shortcutShortLabel="@string/directions_shortcut_short_label"
+        android:shortcutLongLabel="@string/directions_shortcut_long_label" >
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="org.room57.loctrans"
+            android:targetClass="org.room57.loctrans.HomeActivity" >
+            <extra android:name="fragmentTag" android:value="directions" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="stations"
+        android:enabled="true"
+        android:icon="@drawable/ic_place_primary_24dp"
+        android:shortcutShortLabel="@string/stations_shortcut_short_label"
+        android:shortcutLongLabel="@string/stations_shortcut_long_label" >
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="org.room57.loctrans"
+            android:targetClass="org.room57.loctrans.HomeActivity" >
+            <extra android:name="fragmentTag" android:value="stations" />
+        </intent>
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="lines"
+        android:enabled="true"
+        android:icon="@drawable/ic_directions_bus_primary_24dp"
+        android:shortcutShortLabel="@string/lines_shortcut_short_label"
+        android:shortcutLongLabel="@string/lines_shortcut_long_label" >
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetPackage="org.room57.loctrans"
+            android:targetClass="org.room57.loctrans.HomeActivity" >
+            <extra android:name="fragmentTag" android:value="lines" />
+        </intent>
+    </shortcut>
+</shortcuts>
