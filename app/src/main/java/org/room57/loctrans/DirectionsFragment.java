@@ -27,9 +27,9 @@ public class DirectionsFragment extends Fragment {
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stationSearchDialog st = new stationSearchDialog(getContext());
+                StationSearchDialog st = new StationSearchDialog(getContext());
                 st.show();
-                st.setDialogResult(new stationSearchDialog.OnMyDialogResult(){
+                st.setDialogResult(new StationSearchDialog.OnMyDialogResult(){
                     public void finish(String result){
                         if (result != null) {
                             btnStart.setText(result);
@@ -47,9 +47,9 @@ public class DirectionsFragment extends Fragment {
         btnEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                stationSearchDialog st = new stationSearchDialog(getContext());
+                StationSearchDialog st = new StationSearchDialog(getContext());
                 st.show();
-                st.setDialogResult(new stationSearchDialog.OnMyDialogResult(){
+                st.setDialogResult(new StationSearchDialog.OnMyDialogResult(){
                     public void finish(String result){
                         if (result != null) {
                             btnEnd.setText(result);

@@ -16,14 +16,14 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-public class stationSearchDialog extends Dialog implements View.OnClickListener {
+public class StationSearchDialog extends Dialog implements View.OnClickListener {
     private StationsAdapter sAdapter;
     private RecyclerView recyclerView;
     private EditText filterText;
     private List<Stations> stationsList;
     private OnMyDialogResult mDialogResult;
 
-    public stationSearchDialog(@NonNull Context context) {
+    public StationSearchDialog(@NonNull Context context) {
         super(context);
         this.stationsList = new ArrayList<>();
         this.stationsList.addAll(Values.stationsList);

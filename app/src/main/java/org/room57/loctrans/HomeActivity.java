@@ -12,13 +12,17 @@ import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SurfaceControl;
 import android.widget.Toast;
 
 public class HomeActivity extends AppCompatActivity {
-    MenuItem search_item;
     Fragment frag;
+    Fragment lastFrag;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -50,7 +54,7 @@ public class HomeActivity extends AppCompatActivity {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
         Intent intent = getIntent();
-        if (intent.getExtras() != null) {
+        if (intent.getExtras() != null && intent.getExtras().getString("fragmentTag") != null) {
             switch (intent.getExtras().getString("fragmentTag")) {
                 case "lines":
                     navigation.setSelectedItemId(R.id.navigation_lines);
@@ -73,8 +77,9 @@ public class HomeActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Orar Loctrans");
 
         Values.setStopsList(getApplicationContext());
+        Values.setStationsList(getApplicationContext());
 
-        if (intent.getExtras() != null) {
+        if (intent.getExtras() != null && intent.getExtras().getString("fragmentTag") != null) {
             loadFragmentByTag(intent.getExtras().getString("fragmentTag"));
         }
         else
@@ -113,21 +118,36 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void loadFragmentByTag(String tag) {
-        frag = getSupportFragmentManager().findFragmentByTag(tag);
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        frag = manager.findFragmentByTag(tag);
         if (frag == null){
             switch (tag) {
                 case "lines":
                     frag = new AllLinesFragment();
+                    transaction.add(R.id.fragment, frag, tag);
                     break;
                 case "stations":
                     frag = new AllStationsFragment();
+                    transaction.add(R.id.fragment, frag, tag);
                     break;
                 case "directions":
                     frag = new DirectionsFragment();
+                    transaction.add(R.id.fragment, frag, tag);
                     break;
             }
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment, frag, tag).commit();
+
+        if (lastFrag == null)
+            lastFrag = frag;
+        else {
+            transaction.hide(lastFrag);
+            lastFrag = frag;
+        }
+
+        transaction.show(frag);
+        transaction.commit();
     }
 
 }

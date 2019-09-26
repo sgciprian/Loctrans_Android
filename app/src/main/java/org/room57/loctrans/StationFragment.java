@@ -177,9 +177,9 @@ public class StationFragment extends Fragment {
             public void onClick(View v) {
                 final ImageButton btn = (ImageButton) v;
                 if (!filtered) {
-                    stationSearchDialog st = new stationSearchDialog(getContext());
+                    StationSearchDialog st = new StationSearchDialog(getContext());
                     st.show();
-                    st.setDialogResult(new stationSearchDialog.OnMyDialogResult(){
+                    st.setDialogResult(new StationSearchDialog.OnMyDialogResult(){
                         public void finish(String result){
                             if (result != null) {
                                 filtered = true;

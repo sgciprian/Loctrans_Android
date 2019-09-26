@@ -28,6 +28,7 @@ public class AllStationsFragment extends Fragment {
     private List<Stations> stationsList;
     private RecyclerView recyclerView;
     private StationsAdapter sAdapter;
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -56,32 +57,7 @@ public class AllStationsFragment extends Fragment {
             }
         }));
 
-        stationsList = new ArrayList<>();
-        try {
-            CSVReader reader = new CSVReader(new InputStreamReader(getActivity().getAssets().open("data/stations.csv")));
-            for(;;) {
-                String[] next = reader.readNext();
-                if(next != null) {
-                    Stations nw = new Stations();
-                    nw.setCode(next[0]);
-                    nw.setName(next[1]);
-                    stationsList.add(nw);
-                } else {
-                    break;
-                }
-            }
-            stationsList.remove(0);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Collections.sort(stationsList, new Comparator<Stations>() {
-            @Override
-            public int compare(Stations o1, Stations o2) {
-                return o1.getName().compareTo(o2.getName());
-            }
-        });
-        Values.setStationsList(stationsList);
+        stationsList = new ArrayList<>(Values.stationsList);
 
         sAdapter = new StationsAdapter(stationsList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity().getApplicationContext());
